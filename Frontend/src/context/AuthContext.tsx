@@ -1,0 +1,50 @@
+import React, { createContext, useEffect, useState } from 'react'
+
+type User = {
+  name: string;
+  email: string;
+};
+
+type UserAuth = {
+  isLoggedIn: boolean;
+  user: User | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+};
+
+const AuthContext = createContext<UserAuth | null>(null);
+
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if user's cookies are valid, then skip login
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    // Login user
+  };
+
+  const signup = async (name: string, email: string, password: string) => {
+    // Signup user
+  };
+
+  const logout = async () => {
+    // Logout user
+  };
+
+  const value = {
+    isLoggedIn,
+    user,
+    login,
+    signup,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
+}
+
+export default AuthContext
