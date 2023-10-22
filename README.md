@@ -1,2 +1,8 @@
 # OpenAI-ChatBot-using-MERN
-This is a ChatGPT-like chat-bot web application developed using MERN stack that uses OpenAI API for the AI Model
+
+This is an AI Chatbot application, inspired by ChatGPT, by using MERN Stack and OpenAI
+
+It's a customized chatbot where each message of the user is stored in DB and can be retrieved and deleted.
+
+It's a completely secure application using JWT Tokens, HTTP-Only Cookies, Signed Cookies, Password Encryption, and Middleware Chains.
+
