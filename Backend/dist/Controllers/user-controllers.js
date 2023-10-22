@@ -1,5 +1,7 @@
 import User from "../Models/User.js";
 import { hash, compare } from 'bcrypt';
+import { createToken } from "../utils/token-manager.js";
+import { COOKIE_NAME } from "../utils/constants.js";
 export const getAllUsers = async (req, res, next) => {
     // Get all users from the database
     try {
@@ -26,6 +28,25 @@ export const userSignUp = async (req, res, next) => {
         // Saving user details into the database
         const user = new User({ name, email, password: hashedPassword });
         await user.save();
+        // Removing previous cookie
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+        });
+        // Generating JWT Token upon Login
+        const token = createToken(user._id.toString(), user.email, "7d");
+        // Sending cookie to the user
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+            expires,
+            signed: true,
+        });
         return res.status(201).json({ message: "Okay", id: user._id.toString() });
     }
     catch (error) {
@@ -48,7 +69,26 @@ export const userLogin = async (req, res, next) => {
         if (!isPasswordCorrect) {
             return res.status(403).send("Incorrect Password");
         }
-        //return res.status(201).json({ message:"Okay", id:user._id.toString() });
+        // Removing previous cookie
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+        });
+        // Generating JWT Token upon Login
+        const token = createToken(user._id.toString(), user.email, "7d");
+        // Sending cookie to the user
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+            expires,
+            signed: true,
+        });
+        return res.status(201).json({ message: "Okay", id: user._id.toString() });
     }
     catch (error) {
         console.log(error);

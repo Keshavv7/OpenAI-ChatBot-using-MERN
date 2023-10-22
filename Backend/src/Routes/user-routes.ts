@@ -1,5 +1,5 @@
 import { Router } from "express";   
-import { getAllUsers, userSignUp } from "../Controllers/user-controllers.js";
+import { getAllUsers, userLogin, userSignUp } from "../Controllers/user-controllers.js";
 import { loginValidator, signUpValidator, validate } from "../utils/validators.js";
 
 
@@ -11,6 +11,6 @@ userRoutes.get("/", getAllUsers);
 userRoutes.post("/signup", validate(signUpValidator), userSignUp);
 
 // Route for login of existing user
-userRoutes.post("/login", validate(loginValidator), userSignUp);
+userRoutes.post("/login", validate(loginValidator), userLogin);
 
 export default userRoutes;
